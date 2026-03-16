@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Twig funcionando</h1>
+    <hr>
+    <p>Olá {{ nome }}</p>
+    <p>
+        {% if legal %}
+        Você é um cara legal
+        {% else %}
+        Você não é legal
+        {% endif %}
+    </p>
+    <p>
+        <ul>
+            {% for disc in disciplinas %}
+            <li>{{ disc }}</li>
+            {% endfor %}
+        </ul>
+    </p>
+</body>
+</html>
