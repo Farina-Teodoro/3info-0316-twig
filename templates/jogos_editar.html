@@ -1,0 +1,23 @@
+{% extends "_base.html" %}
+
+{% block conteudo %}
+<h2>Editar Jogo</h2>
+<h3>Você está editando o jogo {{ jogo.nome }}</h3>
+<br>
+<div>
+    <form action="jogos_editar.php" method="post" enctype="multipart/form-data">
+        <input type="text" name="nome" placeholder="{{ jogo.nome }}" value="{{ jogo.nome }}">
+        <br>
+        <select name="estilo">
+            <option value="acao" {% if jogo.estilo == 'acao' %}selected{% endif %}>Ação</option>
+            <option value="tiro" {% if jogo.estilo == 'tiro' %}selected{% endif %}>Tiro</option>
+            <option value="rpg" {% if jogo.estilo == 'rpg' %}selected{% endif %}>RPG</option>
+        </select>
+        <br>
+        Capa: <input type="file" name="capa" value="{{ jogo.capa }}">
+        <br>
+        <input type="submit" value="Editar">
+    </form>
+</div>
+
+{% endblock %}
