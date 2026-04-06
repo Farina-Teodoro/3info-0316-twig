@@ -6,6 +6,7 @@
 <br>
 <div>
     <form action="jogos_editar.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{{ jogo.id }}">
         <input type="text" name="nome" placeholder="{{ jogo.nome }}" value="{{ jogo.nome }}">
         <br>
         <select name="estilo">
