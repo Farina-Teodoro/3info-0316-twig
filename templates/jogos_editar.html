@@ -14,8 +14,8 @@
             <option value="tiro" {% if jogo.estilo == 'tiro' %}selected{% endif %}>Tiro</option>
             <option value="rpg" {% if jogo.estilo == 'rpg' %}selected{% endif %}>RPG</option>
         </select>
-        <br>
-        Capa: <input type="file" name="capa" value="{{ jogo.capa }}">
+        <br>        Lançamento: <input type="date" name="lancamento" value="{{ jogo.lancamento }}">
+        <br>        Capa: <input type="file" name="capa" value="{{ jogo.capa }}">
         <br>
         <input type="submit" value="Editar">
     </form>

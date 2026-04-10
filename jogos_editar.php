@@ -5,8 +5,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = (int) $_POST["id"] ?? false;
     $nome = $_POST["nome"] ?? false;
     $estilo = $_POST["estilo"] ?? false;
-    $capa = $_FILES['capa'] ?? false;
-    if($capa && !$_FILES['capa']['error']) {
+    $lancamento = $_POST["lancamento"] ?? false;
+    $file_capa = $_FILES['capa'] ?? false;
+    if (!$id || !$nome || !$estilo || !$lancamento) {
+        header('location:jogos.php');
+        die;
+    }
+    $capa_nome = null;
+    if($file_capa && $file_capa['error'] == UPLOAD_ERR_OK) {
         $dados = $pdo->prepare('SELECT capa FROM jogos WHERE id = :id');
         $dados->execute([':id' => $id]);
         $capa_velha = $dados->fetch(PDO::FETCH_ASSOC)['capa'];
@@ -14,18 +20,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if(file_exists($capa_velha)) {
             unlink($capa_velha);
         }
-        $ext = pathinfo($_FILES['capa']['name'], PATHINFO_EXTENSION);
-        $capa = uniqid().'.'.$ext;
-        move_uploaded_file($_FILES['capa']['tmp_name'], "img/{$capa}");      
+        $ext = pathinfo($file_capa['name'], PATHINFO_EXTENSION);
+        $capa_nome = uniqid().'.'.$ext;
+        move_uploaded_file($file_capa['tmp_name'], "img/{$capa_nome}");      
     }
-    $sql = 'UPDATE jogos SET nome = :nome, estilo = :estilo' . (isset($capa) ? ', capa = :capa' : '') . ' WHERE id = :id';
+    $sql = 'UPDATE jogos SET nome = :nome, estilo = :estilo, lancamento = :lancamento' . ($capa_nome ? ', capa = :capa' : '') . ' WHERE id = :id';
     $dados = $pdo->prepare($sql);
     $params = [
         ':id' => $id,
         ':nome' => $nome,
         ':estilo' => $estilo,
+        ':lancamento' => $lancamento,
     ];
-    if(isset($capa)) $params[':capa'] = $capa;
+    if($capa_nome) $params[':capa'] = $capa_nome;
     $dados->execute($params);
 
     header('location:jogos.php');
